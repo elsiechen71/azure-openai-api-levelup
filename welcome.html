@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Innovation Island</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 50%, #F4A460 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .island {
+            background: radial-gradient(ellipse at center, #90EE90 0%, #228B22 70%);
+            border-radius: 50%;
+            position: relative;
+        }
+        .palm-tree {
+            position: absolute;
+            font-size: 40px;
+            color: #8B4513;
+        }
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 V120 H0 V60 Z' fill='%234682B4'/%3E%3C/svg%3E") repeat-x;
+            animation: wave 3s ease-in-out infinite;
+        }
+        @keyframes wave {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-20px); }
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .pulse-button {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .treasure-chest {
+            background: linear-gradient(45deg, #8B4513, #D2B48C);
+            border-radius: 10px 10px 5px 5px;
+            position: relative;
+        }
+        .treasure-chest::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 10px;
+            background: #FFD700;
+            border-radius: 50%;
+        }
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: drift 15s linear infinite;
+        }
+        @keyframes drift {
+            from { transform: translateX(-100px); }
+            to { transform: translateX(400px); }
+        }
+        .sparkle {
+            position: absolute;
+            color: #FFD700;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Clouds -->
+    <div class="cloud w-16 h-8 top-10 -left-20" style="animation-delay: 0s;"></div>
+    <div class="cloud w-12 h-6 top-20 -left-16" style="animation-delay: 5s;"></div>
+    <div class="cloud w-20 h-10 top-16 -left-24" style="animation-delay: 10s;"></div>
+
+    <!-- Main Content -->
+    <div class="flex flex-col items-center justify-center min-h-screen p-6 relative">
+        <!-- Title -->
+        <div class="text-center mb-8 floating">
+            <h1 class="text-4xl font-bold text-white mb-2 drop-shadow-lg">
+                🏝️ Innovation Island
+            </h1>
+            <p class="text-lg text-blue-100 drop-shadow">
+                Your Journey from Idea to Product
+            </p>
+        </div>
+
+        <!-- Island Scene -->
+        <div class="relative mb-8">
+            <!-- Island -->
+            <div class="island w-64 h-40 mx-auto relative">
+                <!-- Palm Trees -->
+                <div class="palm-tree top-2 left-8">🌴</div>
+                <div class="palm-tree top-4 right-12">🌴</div>
+                <div class="palm-tree top-6 left-32">🌴</div>
+                
+                <!-- Treasure Chest -->
+                <div class="treasure-chest w-12 h-8 absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer hover:scale-110 transition-transform">
+                    <div class="text-center text-xs text-yellow-200 mt-1">?</div>
+                </div>
+                
+                <!-- Sparkles -->
+                <div class="sparkle text-xl top-12 left-20" style="animation-delay: 0s;">✨</div>
+                <div class="sparkle text-lg top-16 right-16" style="animation-delay: 1s;">⭐</div>
+                <div class="sparkle text-sm top-20 left-1/2" style="animation-delay: 0.5s;">💫</div>
+            </div>
+            
+            <!-- Water/Waves -->
+            <div class="wave"></div>
+        </div>
+
+        <!-- Story Text -->
+        <div class="bg-white bg-opacity-90 rounded-2xl p-6 mb-8 max-w-sm text-center backdrop-blur-sm shadow-xl">
+            <div class="text-2xl mb-3">🚢</div>
+            <h2 class="text-xl font-bold text-gray-800 mb-3">
+                Stranded but Not Defeated!
+            </h2>
+            <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                You've washed ashore on a mysterious island after a shipwreck. But this isn't just any island - it's <strong>Innovation Island</strong>!
+            </p>
+            <p class="text-gray-600 text-sm leading-relaxed">
+                To survive and thrive, you'll need to discover tools, build teams, and create something amazing. Your innovation journey starts now!
+            </p>
+        </div>
+
+        <!-- Discover Button -->
+        <button 
+            onclick="startJourney()" 
+            class="pulse-button bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:from-green-600 hover:to-emerald-700 transform hover:scale-105 transition-all duration-300 flex items-center space-x-3"
+        >
+            <i class="fas fa-search text-xl"></i>
+            <span>Discover Tools</span>
+            <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <!-- Progress Indicator -->
+        <div class="mt-6 flex items-center space-x-2">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+        </div>
+        
+        <p class="text-white text-sm mt-2 opacity-75">Step 1 of 7</p>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div id="achievementToast" class="fixed top-4 left-4 right-4 bg-green-500 text-white p-3 rounded-lg shadow-lg transform -translate-y-full transition-transform duration-500 z-50">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-trophy text-yellow-300"></i>
+            <span class="font-semibold">Achievement Unlocked: Island Explorer!</span>
+        </div>
+    </div>
+
+    <script>
+        function startJourney() {
+            // Show achievement
+            showAchievement();
+            
+            // Navigate to team selection after a short delay
+            setTimeout(() => {
+                parent.postMessage({
+                    action: 'nextStep',
+                    page: 'team-selection.html',
+                    step: 1
+                }, '*');
+            }, 1500);
+        }
+
+        function showAchievement() {
+            const toast = document.getElementById('achievementToast');
+            toast.style.transform = 'translateY(0)';
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateY(-100%)';
+            }, 2000);
+        }
+
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make treasure chest interactive
+            const treasureChest = document.querySelector('.treasure-chest');
+            treasureChest.addEventListener('click', function() {
+                this.style.transform = 'translateX(-50%) scale(1.2)';
+                setTimeout(() => {
+                    this.style.transform = 'translateX(-50%) scale(1)';
+                }, 200);
+                
+                // Show hint
+                alert('🎁 Treasure Chest says: "Complete the journey to unlock amazing rewards!"');
+            });
+
+            // Add click sound effect simulation
+            document.addEventListener('click', function() {
+                if (navigator.vibrate) {
+                    navigator.vibrate(30);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Your Lego Robot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .building-animation {
+            transition: all 0.8s ease;
+        }
+        .robot-part {
+            transition: all 0.6s ease;
+            cursor: pointer;
+        }
+        .robot-part:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .robot-part.assembled {
+            animation: assembleAnimation 1s ease forwards;
+        }
+        @keyframes assembleAnimation {
+            0% { transform: scale(0) rotate(180deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(90deg); opacity: 0.8; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .building-stage {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .building-stage::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .robot-display {
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .pulse-build {
+            animation: pulse-build 2s ease-in-out infinite;
+        }
+        @keyframes pulse-build {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(245, 158, 11, 0.6);
+                transform: scale(1.02);
+            }
+        }
+        .build-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .build-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+        }
+        .build-button:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        .build-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+        }
+        .monetize-section {
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.8s ease;
+        }
+        .monetize-section.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .building-progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 4px;
+            transition: width 1s ease;
+            position: relative;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .robot-head { font-size: 40px; margin-bottom: 10px; }
+        .robot-body { font-size: 50px; margin-bottom: 10px; }
+        .robot-legs { font-size: 30px; }
+        .feature-badge {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            margin: 2px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-sm mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 floating">
+            <div class="text-4xl mb-4">🤖</div>
+            <h1 class="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+                Innovation Lab
+            </h1>
+            <p class="text-orange-100 text-sm drop-shadow">
+                Building the future, one brick at a time
+            </p>
+        </div>
+
+        <!-- Building Stage -->
+        <div class="building-stage pulse-build">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">
+                    🎉 Your Lego Robot is Being Built!
+                </h2>
+                <p class="text-gray-600 text-sm">
+                    Watch as your innovation comes to life through the power of creativity and engineering.
+                </p>
+            </div>
+
+            <!-- Building Progress -->
+            <div class="building-progress">
+                <div class="progress-fill" id="buildProgress" style="width: 0%"></div>
+            </div>
+            <p class="text-center text-sm text-gray-600 mb-6" id="progressText">Initializing build process...</p>
+
+            <!-- Robot Display -->
+            <div class="robot-display" id="robotDisplay">
+                <div class="text-6xl text-gray-300" id="buildingIndicator">⚙️</div>
+                <p class="text-gray-500 text-sm mt-4">Building in progress...</p>
+            </div>
+
+            <!-- Robot Features -->
+            <div class="text-center mt-6" id="robotFeatures" style="display: none;">
+                <h3 class="font-bold text-gray-700 mb-3">Your Robot's Capabilities</h3>
+                <div class="flex flex-wrap justify-center">
+                    <span class="feature-badge">AI-Powered</span>
+                    <span class="feature-badge">Problem Solver</span>
+                    <span class="feature-badge">Adaptive Learning</span>
+                    <span class="feature-badge">Innovation Engine</span>
+                    <span class="feature-badge">Team Collaborator</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monetization Section -->
+        <div class="monetize-section" id="monetizeSection">
+            <div class="bg-white bg-opacity-95 backdrop-blur-15 rounded-2xl p-6 shadow-xl">
+                <div class="text-center mb-6">
+                    <div class="text-5xl mb-4">💰</div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-3">
+                        Do you want to monetize it?
+                    </h2>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Your innovation is complete! Now you can turn your creation into a sustainable business. Ready to make an impact in the market?
+                    </p>
+                </div>
+
+                <!-- Market Potential -->
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4 mb-6">
+                    <h4 class="font-bold text-gray-700 mb-3 text-center">Market Potential</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-600">Market Demand</span>
+                            <div class="flex items-center space-x-1">
+                                <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-green-500 rounded-full" style="width: 88%"></div>
+                                </div>
+                                <span class="text-xs text-gray-600">88%</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-600">Innovation Score</span>
+                            <div class="flex items-center space-x-1">
+                                <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-blue-500 rounded-full" style="width: 94%"></div>
+                                </div>
+                                <span class="text-xs text-gray-600">94%</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-600">Scalability</span>
+                            <div class="flex items-center space-x-1">
+                                <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-purple-500 rounded-full" style="width: 91%"></div>
+                                </div>
+                                <span class="text-xs text-gray-600">91%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monetization Button -->
+                <button 
+                    class="build-button w-full text-white px-6 py-4 rounded-full font-bold text-lg shadow-xl transition-all duration-300 flex items-center justify-center space-x-3 relative z-10"
+                    onclick="monetizeRobot()"
+                >
+                    <i class="fas fa-rocket"></i>
+                    <span>Yes, Let's Monetize!</span>
+                    <i class="fas fa-dollar-sign"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="mt-6 flex items-center justify-center space-x-2">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+        </div>
+        
+        <p class="text-white text-sm mt-2 text-center opacity-75">Step 6 of 7</p>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div id="achievementToast" class="fixed top-4 left-4 right-4 bg-orange-500 text-white p-3 rounded-lg shadow-lg transform -translate-y-full transition-transform duration-500 z-50">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-robot text-yellow-300"></i>
+            <span class="font-semibold">Robot Built Successfully!</span>
+        </div>
+    </div>
+
+    <script>
+        let buildProgress = 0;
+        let buildInterval;
+
+        function startBuilding() {
+            const progressBar = document.getElementById('buildProgress');
+            const progressText = document.getElementById('progressText');
+            const robotDisplay = document.getElementById('robotDisplay');
+            const buildingIndicator = document.getElementById('buildingIndicator');
+
+            const buildStages = [
+                { progress: 20, text: 'Assembling foundation...', icon: '🔧' },
+                { progress: 40, text: 'Installing AI modules...', icon: '🧠' },
+                { progress: 60, text: 'Calibrating sensors...', icon: '👁️' },
+                { progress: 80, text: 'Testing movement systems...', icon: '🦾' },
+                { progress: 100, text: 'Robot construction complete!', icon: '✅' }
+            ];
+
+            let currentStage = 0;
+
+            buildInterval = setInterval(() => {
+                if (currentStage < buildStages.length) {
+                    const stage = buildStages[currentStage];
+                    progressBar.style.width = stage.progress + '%';
+                    progressText.textContent = stage.text;
+                    buildingIndicator.textContent = stage.icon;
+
+                    if (stage.progress === 100) {
+                        clearInterval(buildInterval);
+                        setTimeout(showCompletedRobot, 1000);
+                    }
+
+                    currentStage++;
+                }
+            }, 1500);
+        }
+
+        function showCompletedRobot() {
+            const robotDisplay = document.getElementById('robotDisplay');
+            const robotFeatures = document.getElementById('robotFeatures');
+            
+            // Show completed robot
+            robotDisplay.innerHTML = `
+                <div class="robot-head">🤖</div>
+                <div class="robot-body">🦾</div>
+                <div class="robot-legs">🦿🦿</div>
+                <p class="text-green-600 font-bold mt-4">Innovation Complete!</p>
+            `;
+
+            // Add assembly animations
+            const parts = robotDisplay.querySelectorAll('.robot-head, .robot-body, .robot-legs');
+            parts.forEach((part, index) => {
+                setTimeout(() => {
+                    part.classList.add('assembled');
+                }, index * 500);
+            });
+
+            // Show features
+            setTimeout(() => {
+                robotFeatures.style.display = 'block';
+                robotFeatures.style.animation = 'assembleAnimation 1s ease forwards';
+            }, 1500);
+
+            // Show achievement
+            setTimeout(() => {
+                showAchievement();
+            }, 2000);
+
+            // Show monetization section
+            setTimeout(() => {
+                document.getElementById('monetizeSection').classList.add('show');
+            }, 3000);
+        }
+
+        function monetizeRobot() {
+            // Save monetization decision
+            parent.postMessage({
+                action: 'saveProgress',
+                data: { decidedToMonetize: true }
+            }, '*');
+
+            // Show success achievement
+            const toast = document.getElementById('achievementToast');
+            toast.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-chart-line text-yellow-300"></i>
+                    <span class="font-semibold">Business Launch Ready!</span>
+                </div>
+            `;
+            showAchievement();
+
+            // Navigate to success screen
+            setTimeout(() => {
+                parent.postMessage({
+                    action: 'nextStep',
+                    page: 'success.html',
+                    step: 6
+                }, '*');
+                parent.postMessage({ action: 'celebrate' }, '*');
+            }, 2000);
+        }
+
+        function showAchievement() {
+            const toast = document.getElementById('achievementToast');
+            toast.style.transform = 'translateY(0)';
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateY(-100%)';
+            }, 3000);
+        }
+
+        // Initialize building process
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(startBuilding, 500);
+
+            // Add haptic feedback
+            document.addEventListener('click', function() {
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
