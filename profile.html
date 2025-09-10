@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Innovation Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+            min-height: 100vh;
+        }
+        .profile-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .stat-bar {
+            height: 8px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .stat-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-sm mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 floating">
+            <h1 class="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+                Your Profile
+            </h1>
+            <p class="text-indigo-100 text-sm drop-shadow">
+                Innovation Journey Progress
+            </p>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card mb-6">
+            <div class="avatar">🚀</div>
+            <div class="text-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800">Innovation Explorer</h2>
+                <p class="text-gray-600 text-sm">Level 5 Entrepreneur</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Innovation Skills</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="stat-bar">
+                        <div class="stat-fill bg-blue-500" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Team Leadership</span>
+                        <span>92%</span>
+                    </div>
+                    <div class="stat-bar">
+                        <div class="stat-fill bg-green-500" style="width: 92%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Business Acumen</span>
+                        <span>78%</span>
+                    </div>
+                    <div class="stat-bar">
+                        <div class="stat-fill bg-purple-500" style="width: 78%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journey Progress -->
+        <div class="profile-card">
+            <h3 class="font-bold text-lg mb-4">Journey Milestones</h3>
+            <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm">✓</div>
+                    <span class="text-sm">Discovered Innovation Island</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm">✓</div>
+                    <span class="text-sm">Assembled Dream Team</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm">✓</div>
+                    <span class="text-sm">Mastered Innovation Tools</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">⏳</div>
+                    <span class="text-sm">Complete Robot Building</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

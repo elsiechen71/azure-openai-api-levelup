@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Common Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%);
+            min-height: 100vh;
+        }
+        .tool-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .tool-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            border-color: #3b82f6;
+        }
+        .tool-card.selected {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            transform: scale(1.03);
+            border-color: #1d4ed8;
+        }
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .stagger-animation {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: staggerIn 0.6s ease forwards;
+        }
+        @keyframes staggerIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .continue-btn {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        .continue-btn.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .category-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 600;
+        }
+        .tool-card.selected .category-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .progress-ring {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: conic-gradient(#22c55e 0deg, #22c55e 72deg, #e5e7eb 72deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #22c55e;
+        }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-sm mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 floating">
+            <div class="text-4xl mb-3">🛠️</div>
+            <h1 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">
+                Common Innovation Tools
+            </h1>
+            <p class="text-blue-100 text-xs drop-shadow">
+                Select tools that resonate with your innovation approach
+            </p>
+        </div>
+
+        <!-- Progress Ring -->
+        <div class="flex justify-center mb-6">
+            <div class="progress-ring">
+                <span id="progressText">2/7</span>
+            </div>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <!-- Tool 1: Design Thinking -->
+            <div class="tool-card rounded-xl p-4 shadow-lg stagger-animation" style="animation-delay: 0.1s;" onclick="selectTool(1, this)">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    🎨
+                </div>
+                <h3 class="text-sm font-bold text-center mb-2">Design Thinking</h3>
+                <p class="text-xs text-gray-600 text-center mb-2">
+                    Human-centered approach to innovation
+                </p>
+                <div class="text-center">
+                    <span class="category-badge">Creative</span>
+                </div>
+            </div>
+
+            <!-- Tool 2: Lean Startup -->
+            <div class="tool-card rounded-xl p-4 shadow-lg stagger-animation" style="animation-delay: 0.2s;" onclick="selectTool(2, this)">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    🚀
+                </div>
+                <h3 class="text-sm font-bold text-center mb-2">Lean Startup</h3>
+                <p class="text-xs text-gray-600 text-center mb-2">
+                    Build-measure-learn methodology
+                </p>
+                <div class="text-center">
+                    <span class="category-badge">Agile</span>
+                </div>
+            </div>
+
+            <!-- Tool 3: Agile Development -->
+            <div class="tool-card rounded-xl p-4 shadow-lg stagger-animation" style="animation-delay: 0.3s;" onclick="selectTool(3, this)">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                    ⚡
+                </div>
+                <h3 class="text-sm font-bold text-center mb-2">Agile Dev</h3>
+                <p class="text-xs text-gray-600 text-center mb-2">
+                    Iterative development approach
+                </p>
+                <div class="text-center">
+                    <span class="category-badge">Technical</span>
+                </div>
+            </div>
+
+            <!-- Tool 4: Market Research -->
+            <div class="tool-card rounded-xl p-4 shadow-lg stagger-animation" style="animation-delay: 0.4s;" onclick="selectTool(4, this)">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                    📊
+                </div>
+                <h3 class="text-sm font-bold text-center mb-2">Market Research</h3>
+                <p class="text-xs text-gray-600 text-center mb-2">
+                    Data-driven decision making
+                </p>
+                <div class="text-center">
+                    <span class="category-badge">Analytics</span>
+                </div>
+            </div>
+
+            <!-- Tool 5: Prototyping -->
+            <div class="tool-card rounded-xl p-4 shadow-lg stagger-animation" style="animation-delay: 0.5s;" onclick="selectTool(5, this)">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                    🔧
+                </div>
+                <h3 class="text-sm font-bold text-center mb-2">Rapid Prototyping</h3>
+                <p class="text-xs text-gray-600 text-center mb-2">
+                    Quick concept validation
+                </p>
+                <div class="text-center">
+                    <span class="category-badge">Build</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selection Info -->
+        <div id="selectionInfo" class="bg-white bg-opacity-20 rounded-xl p-4 mb-6 text-white text-center" style="display: none;">
+            <div class="text-2xl mb-2" id="selectedIcon">🎯</div>
+            <h3 class="font-bold mb-1" id="selectedName">Tool Selected</h3>
+            <p class="text-xs opacity-90" id="selectedDescription">Great choice for innovation!</p>
+        </div>
+
+        <!-- Continue Button -->
+        <button 
+            id="continueBtn"
+            class="continue-btn w-full text-white px-6 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-3"
+            onclick="proceedToSurvival()"
+        >
+            <span>Proceed to Survival Phase</span>
+            <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <!-- Progress Indicator -->
+        <div class="mt-6 flex items-center justify-center space-x-2">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+        </div>
+        
+        <p class="text-white text-sm mt-2 text-center opacity-75">Step 3 of 7</p>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div id="achievementToast" class="fixed top-4 left-4 right-4 bg-blue-500 text-white p-3 rounded-lg shadow-lg transform -translate-y-full transition-transform duration-500 z-50">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-tools text-yellow-300"></i>
+            <span class="font-semibold">Tool Discovered!</span>
+        </div>
+    </div>
+
+    <script>
+        let selectedTool = null;
+        const tools = {
+            1: { name: 'Design Thinking', icon: '🎨', description: 'Perfect for user-centered innovation!', category: 'Creative' },
+            2: { name: 'Lean Startup', icon: '🚀', description: 'Great for rapid market validation!', category: 'Agile' },
+            3: { name: 'Agile Development', icon: '⚡', description: 'Excellent for iterative building!', category: 'Technical' },
+            4: { name: 'Market Research', icon: '📊', description: 'Smart choice for data-driven decisions!', category: 'Analytics' },
+            5: { name: 'Rapid Prototyping', icon: '🔧', description: 'Ideal for quick concept testing!', category: 'Build' }
+        };
+
+        function selectTool(toolNumber, element) {
+            // Remove previous selection
+            document.querySelectorAll('.tool-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Add selection to clicked card
+            element.classList.add('selected');
+            selectedTool = toolNumber;
+
+            // Show tool info
+            const info = document.getElementById('selectionInfo');
+            const tool = tools[toolNumber];
+            
+            document.getElementById('selectedIcon').textContent = tool.icon;
+            document.getElementById('selectedName').textContent = tool.name;
+            document.getElementById('selectedDescription').textContent = tool.description;
+            
+            info.style.display = 'block';
+            info.style.animation = 'staggerIn 0.5s ease forwards';
+
+            // Show continue button
+            const continueBtn = document.getElementById('continueBtn');
+            continueBtn.classList.add('show');
+
+            // Show achievement
+            showAchievement();
+
+            // Save tool selection
+            parent.postMessage({
+                action: 'saveProgress',
+                data: { selectedCommonTool: toolNumber }
+            }, '*');
+
+            // Add haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 50, 50]);
+            }
+        }
+
+        function proceedToSurvival() {
+            if (!selectedTool) {
+                alert('Please select a tool first!');
+                return;
+            }
+
+            parent.postMessage({
+                action: 'nextStep',
+                page: 'survival-tools.html',
+                step: 3
+            }, '*');
+        }
+
+        function showAchievement() {
+            const toast = document.getElementById('achievementToast');
+            toast.style.transform = 'translateY(0)';
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateY(-100%)';
+            }, 2000);
+        }
+
+        // Add entrance animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress ring
+            setTimeout(() => {
+                document.querySelector('.progress-ring').style.background = 
+                    'conic-gradient(#22c55e 0deg, #22c55e 154deg, #e5e7eb 154deg)';
+            }, 500);
+
+            // Add tool card hover effects
+            document.querySelectorAll('.tool-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.transform = 'translateY(-3px) scale(1.02)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.transform = 'translateY(0) scale(1)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

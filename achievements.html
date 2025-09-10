@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements & Awards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            min-height: 100vh;
+        }
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        .achievement-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .achievement-icon {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        .locked {
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-sm mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 floating">
+            <div class="text-4xl mb-2">🏆</div>
+            <h1 class="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+                Achievements
+            </h1>
+            <p class="text-yellow-100 text-sm drop-shadow">
+                Your innovation milestones
+            </p>
+        </div>
+
+        <!-- Achievements List -->
+        <div>
+            <div class="achievement-card">
+                <div class="achievement-icon">🏝️</div>
+                <h3 class="font-bold text-center mb-1">Island Explorer</h3>
+                <p class="text-xs text-gray-600 text-center">Discovered Innovation Island</p>
+                <div class="text-center mt-2">
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Unlocked</span>
+                </div>
+            </div>
+            
+            <div class="achievement-card">
+                <div class="achievement-icon">👥</div>
+                <h3 class="font-bold text-center mb-1">Team Builder</h3>
+                <p class="text-xs text-gray-600 text-center">Assembled your innovation team</p>
+                <div class="text-center mt-2">
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Unlocked</span>
+                </div>
+            </div>
+            
+            <div class="achievement-card">
+                <div class="achievement-icon">🛠️</div>
+                <h3 class="font-bold text-center mb-1">Tool Master</h3>
+                <p class="text-xs text-gray-600 text-center">Mastered innovation tools</p>
+                <div class="text-center mt-2">
+                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Unlocked</span>
+                </div>
+            </div>
+            
+            <div class="achievement-card locked">
+                <div class="achievement-icon">🤖</div>
+                <h3 class="font-bold text-center mb-1">Robot Creator</h3>
+                <p class="text-xs text-gray-600 text-center">Build your first robot</p>
+                <div class="text-center mt-2">
+                    <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Locked</span>
+                </div>
+            </div>
+            
+            <div class="achievement-card locked">
+                <div class="achievement-icon">💰</div>
+                <h3 class="font-bold text-center mb-1">Entrepreneur</h3>
+                <p class="text-xs text-gray-600 text-center">Successfully monetize your innovation</p>
+                <div class="text-center mt-2">
+                    <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Locked</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

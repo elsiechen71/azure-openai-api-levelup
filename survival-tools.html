@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f766e 0%, #134e4a 50%, #064e3b 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        .survival-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .survival-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+        .survival-card:hover::before {
+            animation: shimmer 1.5s ease-in-out;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+        .survival-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            border-color: #10b981;
+        }
+        .survival-card.selected {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            transform: scale(1.05) rotate(2deg);
+            border-color: #047857;
+            box-shadow: 0 25px 50px rgba(16, 185, 129, 0.3);
+        }
+        .tool-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        .survival-card.selected .tool-icon {
+            box-shadow: 0 8px 20px rgba(255,255,255,0.3);
+        }
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .rarity-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .rarity-common { background: #6b7280; color: white; }
+        .rarity-rare { background: #3b82f6; color: white; }
+        .rarity-epic { background: #8b5cf6; color: white; }
+        .rarity-legendary { background: #f59e0b; color: white; }
+        .continue-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        .continue-btn.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .stats-bar {
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 4px 0;
+        }
+        .stats-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.8s ease;
+        }
+        .survival-card.selected .stats-bar {
+            background: rgba(255,255,255,0.2);
+        }
+        .environment-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float-particle 8s linear infinite;
+        }
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="p-6">
+    <!-- Environment Particles -->
+    <div class="environment-particles" id="particles"></div>
+
+    <div class="max-w-sm mx-auto relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-6 floating">
+            <div class="text-5xl mb-4">🏝️</div>
+            <h1 class="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+                Survival Tools
+            </h1>
+            <p class="text-teal-100 text-sm drop-shadow">
+                Choose wisely - your survival depends on it!
+            </p>
+        </div>
+
+        <!-- Survival Tools -->
+        <div class="space-y-4 mb-8">
+            <!-- Tool 1: Fire Starter -->
+            <div class="survival-card rounded-2xl p-5 shadow-xl relative" onclick="selectSurvivalTool(1, this)">
+                <div class="rarity-badge rarity-common">Common</div>
+                <div class="tool-icon" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">
+                    🔥
+                </div>
+                <h3 class="text-lg font-bold text-center mb-2">Fire Starter Kit</h3>
+                <p class="text-sm text-gray-600 text-center mb-3">
+                    Essential for warmth, cooking, and signaling. The foundation of survival.
+                </p>
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs">
+                        <span>Utility</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="stats-bar">
+                        <div class="stats-fill bg-red-500" style="width: 95%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 2: Water Purifier -->
+            <div class="survival-card rounded-2xl p-5 shadow-xl relative" onclick="selectSurvivalTool(2, this)">
+                <div class="rarity-badge rarity-rare">Rare</div>
+                <div class="tool-icon" style="background: linear-gradient(135deg, #0891b2, #0e7490);">
+                    💧
+                </div>
+                <h3 class="text-lg font-bold text-center mb-2">Water Purifier</h3>
+                <p class="text-sm text-gray-600 text-center mb-3">
+                    Clean water is life. This advanced filter ensures safe hydration.
+                </p>
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs">
+                        <span>Necessity</span>
+                        <span>98%</span>
+                    </div>
+                    <div class="stats-bar">
+                        <div class="stats-fill bg-blue-500" style="width: 98%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 3: Multi-Tool -->
+            <div class="survival-card rounded-2xl p-5 shadow-xl relative" onclick="selectSurvivalTool(3, this)">
+                <div class="rarity-badge rarity-epic">Epic</div>
+                <div class="tool-icon" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">
+                    🔧
+                </div>
+                <h3 class="text-lg font-bold text-center mb-2">Swiss Army Knife</h3>
+                <p class="text-sm text-gray-600 text-center mb-3">
+                    Versatile multi-tool with 15+ functions. Your pocket workshop.
+                </p>
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs">
+                        <span>Versatility</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="stats-bar">
+                        <div class="stats-fill bg-purple-500" style="width: 90%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 4: Solar Charger -->
+            <div class="survival-card rounded-2xl p-5 shadow-xl relative" onclick="selectSurvivalTool(4, this)">
+                <div class="rarity-badge rarity-legendary">Legendary</div>
+                <div class="tool-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    ☀️
+                </div>
+                <h3 class="text-lg font-bold text-center mb-2">Solar Power Bank</h3>
+                <p class="text-sm text-gray-600 text-center mb-3">
+                    Harness the sun's energy. Keep your devices powered for rescue signals.
+                </p>
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs">
+                        <span>Innovation</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="stats-bar">
+                        <div class="stats-fill bg-yellow-500" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 5: Shelter Kit -->
+            <div class="survival-card rounded-2xl p-5 shadow-xl relative" onclick="selectSurvivalTool(5, this)">
+                <div class="rarity-badge rarity-rare">Rare</div>
+                <div class="tool-icon" style="background: linear-gradient(135deg, #059669, #047857);">
+                    🏠
+                </div>
+                <h3 class="text-lg font-bold text-center mb-2">Emergency Shelter</h3>
+                <p class="text-sm text-gray-600 text-center mb-3">
+                    Lightweight, weatherproof shelter. Protection from the elements.
+                </p>
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs">
+                        <span>Protection</span>
+                        <span>88%</span>
+                    </div>
+                    <div class="stats-bar">
+                        <div class="stats-fill bg-green-500" style="width: 88%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selection Status -->
+        <div id="selectionStatus" class="bg-white bg-opacity-20 rounded-xl p-4 mb-6 text-white text-center backdrop-blur-sm" style="display: none;">
+            <div class="text-3xl mb-2" id="selectedToolIcon">🎯</div>
+            <h3 class="font-bold text-lg mb-1" id="selectedToolName">Tool Selected</h3>
+            <p class="text-sm opacity-90" id="selectedToolEffect">Ready to build something amazing!</p>
+        </div>
+
+        <!-- Continue Button -->
+        <button 
+            id="continueBtn"
+            class="continue-btn w-full text-white px-6 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-3"
+            onclick="proceedToBuild()"
+        >
+            <span>Use This Tool</span>
+            <i class="fas fa-hammer"></i>
+        </button>
+
+        <!-- Progress Indicator -->
+        <div class="mt-6 flex items-center justify-center space-x-2">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div class="w-3 h-3 bg-gray-300 rounded-full"></div>
+        </div>
+        
+        <p class="text-white text-sm mt-2 text-center opacity-75">Step 4 of 7</p>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div id="achievementToast" class="fixed top-4 left-4 right-4 bg-emerald-500 text-white p-3 rounded-lg shadow-lg transform -translate-y-full transition-transform duration-500 z-50">
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-hammer text-yellow-300"></i>
+            <span class="font-semibold">Survival Tool Acquired!</span>
+        </div>
+    </div>
+
+    <script>
+        let selectedSurvivalTool = null;
+        const survivalTools = {
+            1: { name: 'Fire Starter Kit', icon: '🔥', effect: 'Perfect for creating warmth and energy!', rarity: 'common' },
+            2: { name: 'Water Purifier', icon: '💧', effect: 'Essential for life-sustaining innovation!', rarity: 'rare' },
+            3: { name: 'Swiss Army Knife', icon: '🔧', effect: 'Ultimate versatility for any challenge!', rarity: 'epic' },
+            4: { name: 'Solar Power Bank', icon: '☀️', effect: 'Harness renewable energy for the future!', rarity: 'legendary' },
+            5: { name: 'Emergency Shelter', icon: '🏠', effect: 'Build a foundation for innovation!', rarity: 'rare' }
+        };
+
+        function selectSurvivalTool(toolNumber, element) {
+            // Remove previous selection
+            document.querySelectorAll('.survival-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Add selection to clicked card
+            element.classList.add('selected');
+            selectedSurvivalTool = toolNumber;
+
+            // Show tool status
+            const status = document.getElementById('selectionStatus');
+            const tool = survivalTools[toolNumber];
+            
+            document.getElementById('selectedToolIcon').textContent = tool.icon;
+            document.getElementById('selectedToolName').textContent = tool.name;
+            document.getElementById('selectedToolEffect').textContent = tool.effect;
+            
+            status.style.display = 'block';
+            status.style.animation = 'float 2s ease-in-out infinite';
+
+            // Show continue button
+            const continueBtn = document.getElementById('continueBtn');
+            continueBtn.classList.add('show');
+
+            // Show achievement
+            showAchievement();
+
+            // Save survival tool selection
+            parent.postMessage({
+                action: 'saveProgress',
+                data: { selectedSurvivalTool: toolNumber }
+            }, '*');
+
+            // Enhanced haptic feedback based on rarity
+            if (navigator.vibrate) {
+                const rarityPatterns = {
+                    common: [50],
+                    rare: [50, 50, 50],
+                    epic: [100, 50, 100, 50, 100],
+                    legendary: [200, 100, 200, 100, 200]
+                };
+                navigator.vibrate(rarityPatterns[tool.rarity] || [50]);
+            }
+        }
+
+        function proceedToBuild() {
+            if (!selectedSurvivalTool) {
+                alert('Please select a survival tool first!');
+                return;
+            }
+
+            parent.postMessage({
+                action: 'nextStep',
+                page: 'tool-builder.html',
+                step: 4
+            }, '*');
+        }
+
+        function showAchievement() {
+            const toast = document.getElementById('achievementToast');
+            toast.style.transform = 'translateY(0)';
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateY(-100%)';
+            }, 2500);
+        }
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Add staggered entrance animations
+            const cards = document.querySelectorAll('.survival-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        });
+    </script>
+</body>
+</html>

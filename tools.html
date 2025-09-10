@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovation Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f766e 0%, #134e4a 50%, #064e3b 100%);
+            min-height: 100vh;
+        }
+        .tool-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 0 auto 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-sm mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 floating">
+            <h1 class="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+                Innovation Toolkit
+            </h1>
+            <p class="text-teal-100 text-sm drop-shadow">
+                Your collected tools and resources
+            </p>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="space-y-4">
+            <div class="tool-card">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🎨</div>
+                <h3 class="font-bold text-center mb-2">Design Thinking</h3>
+                <p class="text-xs text-gray-600 text-center">Human-centered innovation approach</p>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🚀</div>
+                <h3 class="font-bold text-center mb-2">Lean Startup</h3>
+                <p class="text-xs text-gray-600 text-center">Build-measure-learn methodology</p>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">🔥</div>
+                <h3 class="font-bold text-center mb-2">Fire Starter Kit</h3>
+                <p class="text-xs text-gray-600 text-center">Essential survival tool for innovation</p>
+            </div>
+            
+            <div class="tool-card">
+                <div class="tool-icon" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">🤖</div>
+                <h3 class="font-bold text-center mb-2">Lego Robot</h3>
+                <p class="text-xs text-gray-600 text-center">Your innovative creation</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
